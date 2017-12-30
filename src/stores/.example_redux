@@ -1,0 +1,32 @@
+import { applyMiddleware, createStore } from 'redux'
+import axios from 'axios'
+import logger from 'redux-logger'
+import thunk from 'redux-thunk'
+import promise from 'redux-promise-middleware'
+
+const initState = {list_of_numbers: []}
+
+const reducer = (state=initState, action) => {
+  switch (action.type){
+    case 'EZ_PENDING': 
+      return state
+    case 'EZ_FULFILLED':
+      return {...state, list_of_numbers: state.list_of_numbers.concat(action.payload.data.echo)}
+  }
+  return state
+}
+
+middleware = applyMiddleware(promise(), thunk, logger())
+
+let store = createStore(reducer, middleware)
+
+function randomNumber(){
+  return Math.floor((Math.random() * 100) + 1)
+}
+
+store.dispatch((dispatch) => {
+  dispatch({
+    type: "EZ",
+    payload: axios.get("http://localhost:5000/echo?value="+randomNumber())
+  })
+})
