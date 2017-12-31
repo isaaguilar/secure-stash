@@ -6,6 +6,11 @@ process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0"
 
 module.exports = {
   entry: "./src/index.js",
+  resolve: {
+    root: path.join(__dirname, ''),
+    modulesDirectories: ['node_modules', 'bower_components'],
+    extensions: ['', '.js', '.jsx']
+  },
   module: {
     loaders: [
       {
@@ -20,7 +25,7 @@ module.exports = {
     ]
   },
   output: {
-    path: __dirname + "/dist/",
+    path: path.join(__dirname, "dist"),
     filename: "bundle.js"
   },
   plugins: debug ? [] : [
@@ -28,4 +33,13 @@ module.exports = {
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
   ],
+  
+  devServer: {
+    outputPath: path.join(__dirname, 'dist'),
+    proxy: {
+      "/api/*": {
+        target: "http://localhost:8081"
+      }
+    }
+  }
 };
