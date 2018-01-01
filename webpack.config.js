@@ -29,9 +29,32 @@ module.exports = {
     filename: "bundle.js"
   },
   plugins: debug ? [] : [
-    new webpack.optimize.DedupePlugin(),
     new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({ mangle: false, sourcemap: false }),
+    new webpack.NoErrorsPlugin(),
+    new webpack.optimize.DedupePlugin(),
+    new webpack.optimize.UglifyJsPlugin({
+      // Eliminate comments
+      comments: false,
+
+      // Compression specific options
+      compress: {
+        // remove warnings
+        warnings: false,
+
+        // Drop console statements
+        drop_console: true
+      },
+
+      mangle: {
+          keep_fnames: true,
+          except: ['$super']
+      }
+    }),
+    new webpack.DefinePlugin({
+        'process.env': {
+            NODE_ENV: JSON.stringify('production')
+        }
+    })
   ],
   
   devServer: {
