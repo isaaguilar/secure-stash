@@ -1,16 +1,17 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react"
+import { connect } from "react-redux"
 import { decrypt } from "aes-cbc-async"
 
-import { fetchEncrypted } from '../../actions/stashActions'
+import PasswordField from "../common/PasswordToggle"
+import { fetchEncrypted } from "../../actions/stashActions"
 
-@connect((store) => {
+@connect(store => {
   return {
     msg: store.stash.msg
   }
 })
-export default class extends React.Component{
-  constructor(props){
+export default class extends React.Component {
+  constructor(props) {
     super(props)
     this.state = {
       title: "",
@@ -20,37 +21,34 @@ export default class extends React.Component{
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.handleDecrypt()
   }
 
-  handleDecrypt(){
-    decrypt(this.state.password, this.state.encrypted, (plaintext) => {
-      this.setState({plaintext})
+  handleDecrypt() {
+    decrypt(this.state.password, this.state.encrypted, plaintext => {
+      this.setState({ plaintext })
     })
   }
 
-  handleOnChange(e){
-    this.setState({[e.currentTarget.id]: e.currentTarget.value})
+  handleOnChange(e) {
+    this.setState({ [e.currentTarget.id]: e.currentTarget.value })
     this.state[e.currentTarget.id] = e.currentTarget.value
     this.handleDecrypt()
   }
 
-  handleFetch(){
-    this.props.dispatch(fetchEncrypted(this.state.title))
-      .then(() => {
-        this.setState({encrypted: this.props.msg})
-        this.handleDecrypt()
-      })
+  handleFetch() {
+    this.props.dispatch(fetchEncrypted(this.state.title)).then(() => {
+      this.setState({ encrypted: this.props.msg })
+      this.handleDecrypt()
+    })
   }
 
-  handleDelete(){
+  handleDelete() {}
 
-  }
-
-  render(){
-    return(
-      <div style={{padding: 20}}>
+  render() {
+    return (
+      <div style={{ padding: 20 }}>
         Title
         <br />
         <input
@@ -63,14 +61,12 @@ export default class extends React.Component{
           onChange={this.handleOnChange.bind(this)}
         />
         <br />
-        <button
-          onClick={this.handleFetch.bind(this)}
-        >
+        <button onClick={this.handleFetch.bind(this)}>
           Fetch encrypted text
         </button>
         <br />
         <button
-          style={{borderColor: "red"}}
+          style={{ borderColor: "red" }}
           onClick={this.handleDelete.bind(this)}
         >
           Delete message from server
@@ -79,23 +75,19 @@ export default class extends React.Component{
         <br />
         Secret Key
         <br />
-        <input
+        <PasswordField
           id="password"
-          type="text"
           defaultValue="password"
-          autoComplete="off"
-          data-lpignore="true"
-          onChange={this.handleOnChange.bind(this)}
+          change={this.handleOnChange.bind(this)}
         />
         <br />
         <br />
         Encrypted Text
         <br />
         <textarea
-          style={{width: "90%", height: 200}}
+          style={{ width: "90%", height: 200 }}
           data-gramm_editor="false"
           id="encrypted"
-          // defaultValue={this.state.encrypted}
           value={this.state.encrypted}
           onChange={this.handleOnChange.bind(this)}
         />
@@ -103,9 +95,7 @@ export default class extends React.Component{
         <br />
         Plain text
         <br />
-        <p
-          style={{fontFamily: "monospace", wordBreak: "break-all"}}
-        >
+        <p style={{ fontFamily: "monospace", wordBreak: "break-all" }}>
           {this.state.plaintext}
         </p>
         <br />

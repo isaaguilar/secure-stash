@@ -1,62 +1,52 @@
-import React from 'react'
-import { connect } from 'react-redux'
+import React from "react"
+import { connect } from "react-redux"
 import { encrypt } from "aes-cbc-async"
 
+import PasswordField from "../common/PasswordToggle"
 import { saveEncrypted } from "../../actions/stashActions"
 
-@connect((store) => {
+@connect(store => {
   return {
     saveError: store.stash.saveError,
     saved: store.stash.saved
   }
 })
-export default class extends React.Component{
-  constructor(props){
+export default class extends React.Component {
+  constructor(props) {
     super(props)
     this.state = {
       password: "password",
       title: "",
       plaintext: "our little secret",
       encrypted: " ",
-      passwordInputType: "text",
+      passwordInputType: "text"
     }
   }
 
-  componentWillMount(){
+  componentWillMount() {
     this.handleEncrypt()
   }
 
-  handleEncrypt(){
-    encrypt(this.state.password, this.state.plaintext, (encrypted) => {
-      this.setState({encrypted})
+  handleEncrypt() {
+    encrypt(this.state.password, this.state.plaintext, encrypted => {
+      this.setState({ encrypted })
     })
   }
 
-  handleOnChange(e){
+  handleOnChange(e) {
     this.state[e.currentTarget.id] = e.currentTarget.value
     this.handleEncrypt()
   }
 
-  handleSave(){
+  handleSave() {
     const { title, encrypted } = this.state
-    console.log("Saving to server: " + title + ":" + encrypted )
+    console.log("Saving to server: " + title + ":" + encrypted)
     this.props.dispatch(saveEncrypted(title, encrypted))
   }
 
-  toggleShowPassword(){
-    if (this.state.passwordInputType === "password"){
-      this.setState({passwordInputType: "text"})
-    }else{
-      this.setState({passwordInputType: "password"})
-    }
-  }
-
-  render(){
-
-    const isPasswordType = this.state.passwordInputType === "password"
-
-    return(
-      <div style={{padding: 20}}>
+  render() {
+    return (
+      <div style={{ padding: 20 }}>
         Title
         <br />
         <input
@@ -72,25 +62,17 @@ export default class extends React.Component{
         <br />
         Secret Key
         <br />
-        <input
+        <PasswordField
           id="password"
-          type={this.state.passwordInputType}
           defaultValue="password"
-          autoComplete="off"
-          data-lpignore="true"
-          onChange={this.handleOnChange.bind(this)}
+          change={this.handleOnChange.bind(this)}
         />
-        <button
-          onClick={this.toggleShowPassword.bind(this)}
-        >
-          { isPasswordType ? "Show" : "Hide"} password
-        </button>
         <br />
         <br />
         Plain text
         <br />
         <textarea
-          style={{width: "90%", height: 200}}
+          style={{ width: "90%", height: 200 }}
           data-gramm_editor="false"
           id="plaintext"
           defaultValue={this.state.plaintext}
@@ -100,22 +82,18 @@ export default class extends React.Component{
         <br />
         Encrypted Text
         <br />
-        <p
-          style={{fontFamily: "monospace", wordBreak: "break-all"}}
-        >
+        <p style={{ fontFamily: "monospace", wordBreak: "break-all" }}>
           {this.state.encrypted}
         </p>
         <br />
-        <button
-          onClick={this.handleSave.bind(this)}
-        >
-          Save
+        <button onClick={this.handleSave.bind(this)}>
+          Save to server
         </button>
         <br />
-        <p style={{color: "red"}}>
+        <p style={{ color: "red" }}>
           {this.props.saveError ? "An error occurred saving to server" : ""}
         </p>
-        <p style={{color: "green"}}>
+        <p style={{ color: "green" }}>
           {this.props.saved ? "Saved" : ""}
         </p>
       </div>

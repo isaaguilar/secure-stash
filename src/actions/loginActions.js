@@ -1,14 +1,13 @@
-import axios from "axios";
+import axios from "axios"
 
 export function logMeIn(email, password) {
-  return  {
+  return {
     type: "LOGIN",
     payload: axios({
-      method: 'post',
-      url: 'api/user/auth',
-      data: {email, password},
-      headers: {'Content-Type': 'application/json'}
+      method: "post",
+      url: "api/user/auth",
+      data: { email, password },
+      headers: { "Content-Type": "application/json" }
     })
   }
 }
-
