@@ -2,8 +2,6 @@ import React from "react"
 import EncryptMessage from "./Stash/EncryptMessage"
 import DecryptMessage from "./Stash/DecryptMessage"
 
-import { encrypt, decrypt } from "aes-cbc-async"
-
 export default class extends React.Component {
   constructor(props) {
     super(props)
