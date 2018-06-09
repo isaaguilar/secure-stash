@@ -1,0 +1,47 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+button {
+  background: #bababa;
+  background-image: -webkit-linear-gradient(top, #bababa, #6e6e6e);
+  background-image: -moz-linear-gradient(top, #bababa, #6e6e6e);
+  background-image: -ms-linear-gradient(top, #bababa, #6e6e6e);
+  background-image: -o-linear-gradient(top, #bababa, #6e6e6e);
+  background-image: linear-gradient(to bottom, #bababa, #6e6e6e);
+  border: 0;
+  /*font-family: Arial;*/
+  color: #ffffff;
+  font-size: 20px;
+  padding: 10px 20px 10px 20px;
+  text-decoration: none;
+}
+
+button:hover {
+  background: #cfcfcf;
+  background-image: -webkit-linear-gradient(top, #cfcfcf, #8a8a8a);
+  background-image: -moz-linear-gradient(top, #cfcfcf, #8a8a8a);
+  background-image: -ms-linear-gradient(top, #cfcfcf, #8a8a8a);
+  background-image: -o-linear-gradient(top, #cfcfcf, #8a8a8a);
+  background-image: linear-gradient(to bottom, #cfcfcf, #8a8a8a);
+  text-decoration: none;
+}
+
+.smallBtn, input {
+  line-height: 1.5em;
+  font-size: 1.15em;
+  vertical-align: middle;
+  margin-right: 15px;
+  padding: 5px 10px 5px 10px;
+}
+
+
+
+
+
+
